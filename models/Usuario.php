@@ -1,0 +1,85 @@
+<?php
+
+namespace Model;
+
+class Usuario extends ActiveRecord{
+
+    protected static $tabla = 'usuarios';
+    protected static $columnasDB = ['id', 'nombre', 'apellido', 'email', 'password', 'telefono', 'admin', 'confirmado', 'token'];
+
+    public $id;
+    public $nombre;
+    public $apellido;
+    public $email;
+    public $password;
+    public $telefono;
+    public $admin;
+    public $confirmado;
+    public $token;
+
+    public function __construct($args = []){
+        $this->id = $args['id'] ?? null;
+        $this->nombre = $args['nombre'] ?? '';
+        $this->apellido = $args['apellido'] ?? '';
+        $this->email = $args['email'] ?? '';
+        $this->password = $args['password'] ?? '';
+        $this->telefono = $args['telefono'] ?? '';
+        $this->admin = $args['admin'] ?? null;
+        $this->confirmado = $args['confirmado'] ?? null;
+        $this->token = $args['token'] ?? '';
+    }
+
+    public function validarNuevaCuenta(){
+        //Longitud de variables
+        $longNom = strlen($this->nombre);
+        $longApe = strlen($this->apellido);
+        $longTel = strlen($this->telefono);
+        $longEma = strlen($this->email);
+        $longPass = strlen($this->password);
+
+        if(!$this->nombre){
+            self::$alertas['error'][] = "El nombre es obligatorio";
+        }
+        if($this->nombre && $longNom > 60){
+            self::$alertas['error'][] = "Su Nombre no debe exceder los 60 caracteres";
+        }
+        if(!$this->apellido){
+            self::$alertas['error'][] = "El apellido es obligatorio";
+        }
+        if($this->apellido && $longApe > 60){
+            self::$alertas['error'][] = "Su Apellido no debe exceder los 60 caracteres";
+        }
+        if(!$this->telefono){
+            self::$alertas['error'][] = "El telefono es obligatorio";
+        }
+        if($this->telefono && ($longTel < 9 || $longTel > 9)){
+            self::$alertas['error'][] = "El telefono debe tener 9 digitos";
+        }
+        if(!$this->email){
+            self::$alertas['error'][] = "El email es obligatorio";
+        }
+        if($this->email && $longEma > 30){
+            self::$alertas['error'][] = "Su email no debe exceder los 30 caracteres";
+        }
+        if(!$this->password){
+            self::$alertas['error'][] = "El password es obligatorio";
+        }
+        if($this->password && $longPass < 6){
+            self::$alertas['error'][] = "El password debe tener al menos 6 caracteres";
+        }
+        if($this->password && $longPass > 30){
+            self::$alertas['error'][] = "Su password no debe exceder los 60 caracteres";
+        }
+        return self::$alertas;
+    }
+
+
+
+
+
+
+
+
+}
+
+?>
