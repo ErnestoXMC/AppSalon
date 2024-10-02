@@ -2,7 +2,7 @@
 <p class="descripcion-pagina">Recupera tu password escribiendo tu email a continuación</p>
 
 <form action="/olvide" method="POST" class="formulario">
-<div class="campo">
+    <div class="campo">
         <label for="email">Email</label>
         <input type="email" name="email" id="email" placeholder="Ingresa tu Email">
     </div>

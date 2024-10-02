@@ -29,7 +29,7 @@ class Usuario extends ActiveRecord{
         $this->token = $args['token'] ?? '';
     }
 
-    public function validarNuevaCuenta(){
+    public function validarNuevaCuenta(): array{
         //Longitud de variables
         $longNom = strlen($this->nombre);
         $longApe = strlen($this->apellido);
@@ -73,8 +73,24 @@ class Usuario extends ActiveRecord{
         return self::$alertas;
     }
 
+    public function verificarUsuario(){
+        $query = "SELECT * FROM " . self::$tabla . " WHERE email = '" . $this->email . "' LIMIT 1";
+        
+        $resultado = self::$db->query($query);
 
+        if($resultado->num_rows){
+            self::$alertas['error'][] = "El usuario ya esta registrado";
+        }
+        return $resultado;
+    }
 
+    public function hashPassword(): void{
+        $this->password = password_hash($this->password, PASSWORD_BCRYPT);
+    }
+    
+    public function crearToken(): void{
+        $this->token = uniqid();
+    }
 
 
 

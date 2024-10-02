@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Classes\Email;
 use Model\Usuario;
 use MVC\Router;
 
@@ -27,6 +28,7 @@ class LoginController{
 
     public static function crear(Router $router){
         $usuario = new Usuario;
+        $alertas = [];
 
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -35,7 +37,19 @@ class LoginController{
             //Verificar que no haya alertas
             if(empty($alertas)){
                 //Verificar que el usuario no esté registrado
-                echo "Pasaste la validacion";
+               $resultado = $usuario->verificarUsuario();
+               if($resultado->num_rows){
+                    $alertas = Usuario::getAlertas();
+               }else{
+                    //Hashear Password
+                    $usuario->hashPassword();
+                    //Generar Token unico
+                    $usuario->crearToken();
+
+                    //Enviar Email
+                    $email = new Email($usuario->nombre, $usuario->email, $usuario->token);
+                    debuguear($email);
+               }
             }
         }
 

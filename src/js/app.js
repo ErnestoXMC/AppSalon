@@ -9,7 +9,7 @@ function eliminarAlerta(){
         if(alerta.classList.contains('error')){
             setTimeout(() => {
                 alerta.remove();
-            }, 9000);
+            }, 10000);
         }else{
             setTimeout(() => {
                 alerta.remove();
