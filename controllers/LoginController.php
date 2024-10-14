@@ -48,7 +48,15 @@ class LoginController{
 
                     //Enviar Email
                     $email = new Email($usuario->nombre, $usuario->email, $usuario->token);
-                    debuguear($email);
+                    $email->confirmarCuenta();
+
+                    //Guardar el usuario 
+                    $resultado = $usuario->guardar();
+
+                    if($resultado){
+                        header('Location: /mensaje');
+                        exit();
+                    }
                }
             }
         }
@@ -59,11 +67,34 @@ class LoginController{
         ]);
     }
 
+    public static function confirmar(Router $router){
+        $alertas = [];
+        
+        $token = s($_GET['token']);
 
+        $usuario = Usuario::where('token', $token);
 
+        if(empty($usuario)){
+            Usuario::setAlerta('error', 'Token No Válido');
+        }else{
+            //Actualizamos los campos del usuario
+            $usuario->confirmado = "1";
+            $usuario->token = null;
+            //Actualizamos en la BD
+            $usuario->guardar();
+            //Mostramos mensaje de alerta
+            Usuario::setAlerta('exito', 'Cuenta Confirmada Correctamente');
+        }
+        $alertas = Usuario::getAlertas();
 
+        $router->render('auth/confirmar-cuenta', [
+            'alertas' => $alertas
+        ]);
 
+    }
 
-
+    public static function mensaje(Router $router){
+        $router->render('auth/mensaje');
+    }
 }
 ?>

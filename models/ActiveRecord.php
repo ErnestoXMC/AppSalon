@@ -90,7 +90,7 @@ class ActiveRecord {
     }
 
     // Registros - CRUD
-    public function guardar() {
+    public function guardar() { 
         $resultado = '';
         if(!is_null($this->id)) {
             // actualizar
@@ -116,6 +116,13 @@ class ActiveRecord {
         return array_shift( $resultado ) ;
     }
 
+        // Busca un registro por su id
+        public static function where($campo, $valor) {
+            $query = "SELECT * FROM " . static::$tabla  ." WHERE {$campo} = '{$valor}'";
+            $resultado = self::consultarSQL($query);
+            return array_shift( $resultado ) ;
+        }
+
     // Obtener Registros con cierta cantidad
     public static function get($limite) {
         $query = "SELECT * FROM " . static::$tabla . " LIMIT {$limite}";
@@ -131,9 +138,9 @@ class ActiveRecord {
         // Insertar en la base de datos
         $query = " INSERT INTO " . static::$tabla . " ( ";
         $query .= join(', ', array_keys($atributos));
-        $query .= " ) VALUES (' "; 
+        $query .= " ) VALUES ('"; 
         $query .= join("', '", array_values($atributos));
-        $query .= " ') ";
+        $query .= "') ";
 
         // Resultado de la consulta
         $resultado = self::$db->query($query);

@@ -13,7 +13,7 @@ function eliminarAlerta(){
         }else{
             setTimeout(() => {
                 alerta.remove();
-            }, 3000);
+            }, 7000);
         }
     });
 }
