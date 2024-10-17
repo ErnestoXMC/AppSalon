@@ -95,6 +95,36 @@ class Usuario extends ActiveRecord{
         return self::$alertas;
     }
 
+    public function validarEmail() : array {
+
+        $longEma = strlen($this->email);
+
+        if(!$this->email){
+            self::$alertas['error'][] = "El email es obligatorio";
+        }
+        if($this->email && $longEma > 30){
+            self::$alertas['error'][] = "Su email no debe exceder los 30 caracteres";
+        }
+
+        return self::$alertas;
+    }
+
+    public function validarPassword(): array{
+        $longPass = strlen($this->password);
+
+        if(!$this->password){
+            self::$alertas['error'][] = "El password es obligatorio";
+        }
+        if($this->password && $longPass < 6){
+            self::$alertas['error'][] = "El password debe tener al menos 6 caracteres";
+        }
+        if($this->password && $longPass > 30){
+            self::$alertas['error'][] = "Su password no debe exceder los 60 caracteres";
+        }
+        
+        return self::$alertas;
+    }
+
     public function verificarUsuario(){
         $query = "SELECT * FROM " . self::$tabla . " WHERE email = '" . $this->email . "' LIMIT 1";
         
