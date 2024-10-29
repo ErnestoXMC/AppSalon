@@ -15,7 +15,6 @@
                 <?php echo $contenido; ?>
             </div>
         </div>
-
-    <script src="build/js/app.js"></script>   
+        <?php echo $script ?? ''; ?>
     </body>
 </html>
