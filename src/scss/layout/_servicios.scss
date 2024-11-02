@@ -2,9 +2,9 @@
 @use 'base/mixins' as m;
 
 .listado-secciones{
-
     display: grid;
     gap: 2rem;
+
     @include m.tablet{
         @include m.grid(2, 2rem);
     }
@@ -14,7 +14,15 @@
         border-radius: 1rem;
         padding: 2rem;
         transition: transform .3s ease-in-out;
-        
+
+        &.seleccionado{
+            background-color: v.$azul;
+
+            p{
+                color: v.$blanco;
+            }
+        }
+
         &:hover{
             transform: scale(1.1);
             cursor: pointer;
