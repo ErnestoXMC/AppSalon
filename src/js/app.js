@@ -281,7 +281,7 @@ function mostrarResumen(){
     tituloDatos.textContent = "Información de la cita";
 
     const nombreCita = document.createElement('P');
-    nombreCita.innerHTML = `<span>Nombre: <span/>${nombre}`;
+    nombreCita.innerHTML = `<span>Nombre: </span>${nombre}`;
 
     //Formatar fecha
     const fechaObj = new Date(fecha);
@@ -300,10 +300,10 @@ function mostrarResumen(){
     const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
 
     const fechaCita = document.createElement('P');
-    fechaCita.innerHTML = `<span>Fecha: <span/>${fechaFormateada}`;
+    fechaCita.innerHTML = `<span>Fecha: </span>${fechaFormateada}`;
 
     const horaCita = document.createElement('P');
-    horaCita.innerHTML = `<span>Hora: <span/>${hora}`;
+    horaCita.innerHTML = `<span>Hora: </span>${hora}`;
 
     const tituloServicios = document.createElement('h3');
     tituloServicios.textContent = "Servicios Seleccionados";
@@ -314,6 +314,8 @@ function mostrarResumen(){
     resumen.appendChild(fechaCita);
     resumen.appendChild(horaCita);
     resumen.appendChild(tituloServicios);
+
+    let total = 0;
 
     servicios.forEach(servicio =>{
         const {id, nombre, precio} = servicio;
@@ -327,6 +329,9 @@ function mostrarResumen(){
         const precioServicio = document.createElement('P');
         precioServicio.innerHTML = `<span>Precio: </span>$${precio}`;
 
+        let nuevoPrecio = parseFloat(precio);
+        total += nuevoPrecio;
+
         contenedorServicio.appendChild(nombreServicio);
         contenedorServicio.appendChild(precioServicio);
 
@@ -334,8 +339,22 @@ function mostrarResumen(){
 
     })
 
+    const botonReservar = document.createElement('BUTTON');
+    botonReservar.classList.add('boton');
+    botonReservar.textContent = 'Reservar Cita';
+    botonReservar.onclick = reservarCita;
+
+    const totalPagar = document.createElement('P');
+    totalPagar.classList.add('total');
+    totalPagar.innerHTML = `<span>Total a Pagar: </span> $${total}.00`;
+
+    resumen.appendChild(totalPagar);
+    resumen.appendChild(botonReservar);
 }
 
+function reservarCita(){
+    console.log('reservando cita');
+}
 
 
 
