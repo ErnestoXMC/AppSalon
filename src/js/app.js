@@ -3,6 +3,7 @@ const pasoInicial = 1;
 const pasoFinal = 3;
 
 const cita = {
+    id: '',
     nombre: '',
     fecha: '',
     hora: '',
@@ -43,6 +44,7 @@ function iniciarApp(){
 
     obtenerAPI();
     //Llenando el obj cita
+    capturarIdUsuario();
     nombreCliente();
     seleccionarFecha();
     seleccionarHora();
@@ -133,7 +135,6 @@ async function obtenerAPI(){
     }
 }
 
-
 function mostrarServicios(servicios){
     servicios.forEach(servicio =>{
         const {id, nombre, precio} = servicio;
@@ -180,8 +181,6 @@ function seleccionarServicio(servicio){
         cita.servicios = [...servicios, servicio];
         divServicio.classList.add('seleccionado');
     }
-
-    console.log(cita);
 }
 
 function nombreCliente(){
@@ -203,7 +202,6 @@ function seleccionarFecha(){
             cita.fecha = e.target.value;
             removerAlerta();
         }
-        console.log(cita);
     });
 }
 
@@ -225,6 +223,10 @@ function seleccionarHora(){
         console.log(cita);
 
     })
+}
+
+function capturarIdUsuario(){
+    cita.id = document.querySelector("#usuarioId").value;
 }
 
 function mostrarAlerta(mensaje, tipo, elemento){
@@ -352,8 +354,65 @@ function mostrarResumen(){
     resumen.appendChild(botonReservar);
 }
 
-function reservarCita(){
-    console.log('reservando cita');
+async function reservarCita(){
+    const {id, fecha, hora, servicios} = cita;
+    const idServicios = servicios.map(servicio => servicio.id);
+
+    const datos = new FormData();
+    datos.append('usuarioId', id);
+    datos.append('fecha', fecha);
+    datos.append('hora', hora);
+    datos.append('servicios', idServicios);
+
+    console.log([...datos]);
+
+    try{
+        const url = "http://localhost:3000/api/citas";
+
+        const respuesta = await fetch(url, {
+            method: 'POST',
+            body: datos
+        })
+    
+        const resultado = await respuesta.json();
+        console.log(resultado);
+
+        if(resultado.cita && resultado.citaServicio){
+            Swal.fire({
+                icon: "success",
+                title: "Cita Creada",
+                text: "¡Tu cita fue creada correctamente!",
+                customClass: {
+                    popup: 'swal-custom-popup', // contenedor
+                    icon: 'swal-custom-icon',  // ícono
+                    title: 'swal-custom-title', // título
+                    confirmButton: 'swal-custom-button' // botón
+                }
+            }).then(() => {
+                window.location.reload();
+            });
+            
+        }
+    
+    }catch(error){
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Hubo un error al crear la cita",
+            customClass: {
+                popup: 'swal-custom-popup', // contenedor
+                icon: 'swal-custom-icon',  // ícono
+                title: 'swal-custom-title', // título
+                confirmButton: 'swal-custom-button' // botón
+            }
+          }).then(()=>{
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
+        });
+        console.log(error);
+    }
+    
 }
 
 

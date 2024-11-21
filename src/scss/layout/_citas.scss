@@ -7,6 +7,27 @@
         text-align: center;
     }
 }
+.barra{
+    margin: 0;
+    p{
+        text-align: center;
+        @include m.tablet{
+            text-align: left;
+        }
+    }
+    span{
+        color: #bbdefb;
+        font-weight: bold;
+    }
+    @include m.tablet{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .boton{
+        @include m.boton(v.$rojo, v.$blanco);
+    }
+}
 .mostrar{
     display: block;
 }
@@ -23,6 +44,12 @@
             color: v.$azul;
             font-weight: v.$bold;
         }
+    }
+    .contenedor-servicio{
+       border-bottom: 1px solid #495057;
+       @include m.tablet{
+        width: 50%;
+       }
     }
     .total{
         font-size: 2.5rem;

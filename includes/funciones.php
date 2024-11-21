@@ -12,3 +12,9 @@ function s($html) : string {
     $sani = htmlspecialchars($html);
     return $sani;
 }
+
+function isAuth(): void{
+    if(!isset($_SESSION['login'])){
+        header("Location: /");
+    }
+}
