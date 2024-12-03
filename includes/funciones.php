@@ -13,6 +13,13 @@ function s($html) : string {
     return $sani;
 }
 
+function ultimoServicio(String $actual, String $proximo): bool{
+    if($actual !== $proximo){
+        return true;
+    }
+    return false;
+}
+
 function isAuth(): void{
     if(!isset($_SESSION['login'])){
         header("Location: /");

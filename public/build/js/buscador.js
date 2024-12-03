@@ -1,0 +1,1 @@
+function iniciarApp(){filtrarFecha()}function filtrarFecha(){document.querySelector("#fecha").addEventListener("input",(e=>{window.location=`?fecha=${e.target.value}`}))}document.addEventListener("DOMContentLoaded",(()=>{iniciarApp()}));

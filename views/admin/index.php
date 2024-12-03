@@ -9,16 +9,20 @@
     <form class="formulario" method="POST">
         <div class="campo">
             <label for="fecha">Fecha</label>
-            <input type="date" name="fecha" id="fecha" value="<?php echo  date("Y-m-d"); ?>">
+            <input type="date" name="fecha" id="fecha" value="<?php echo $fecha; ?>">
         </div>
     </form> 
 </div>
 <div id="citas-admin">
     <h2>Citas</h2>
     <ul class="citas">
+        <?php if(count($citas) === 0) {?>
+            <p class="text-center">No se encontraron citas</p>
+            <?php } ?>
         <?php $idCita = 0; ?>
-        <?php foreach ($citas as $cita) { ?>
-            <?php if ($idCita !== $cita->id) { ?>
+        <?php foreach ($citas as $key => $cita) { ?> <!-- Key es el indice del arreglo citas -->
+            <?php if ($idCita !== $cita->id)  { 
+                    $total = 0;?>
                 <?php if ($idCita !== 0) { ?>
                     </div></li> <!-- Cierra el contenedor de la cita anterior -->
                 <?php } ?>
@@ -30,10 +34,21 @@
                         <p>Email: <span><?php echo $cita->email; ?></span></p>
                         <p>Teléfono: <span><?php echo $cita->telefono; ?></span></p>
                         <h3>Servicios</h3>
-                <?php $idCita = $cita->id; ?>
+                <?php $idCita = $cita->id;?>
             <?php } ?>
+            <?php $total += $cita->precio; ?>
             <p>Servicio: <span><?php echo $cita->servicio . " $" . $cita->precio; ?></span></p>
-        <?php } ?>
+            <?php 
+                $actual = $cita->id;//id actual
+                $proximo = $citas[$key + 1]->id ?? 0;//siguiente id
+
+                if(ultimoServicio($actual, $proximo)){?>
+                    <p>Total: <span>$<?php echo $total; ?></span></p>
+                <?php  } ?>
+        <?php } ?><!-- Fin del foreach -->
         </div></li> <!-- Cierra la última cita -->
+        
     </ul>
 </div>
+
+<?php echo "<script src='build/js/buscador.js'></script>"; ?>
