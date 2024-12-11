@@ -28,7 +28,7 @@
                 <?php } ?>
                 <li>
                     <div class="cita">
-                        <p>ID: <span><?php echo $cita->id; ?></span></p>
+                        <p>N° Cita: <span><?php echo $cita->id; ?></span></p>
                         <p>Hora: <span><?php echo $cita->hora; ?></span></p>
                         <p>Cliente: <span><?php echo $cita->cliente; ?></span></p>
                         <p>Email: <span><?php echo $cita->email; ?></span></p>
@@ -44,6 +44,11 @@
 
                 if(ultimoServicio($actual, $proximo)){?>
                     <p>Total: <span>$<?php echo $total; ?></span></p>
+
+                    <form id="form" method="POST" action="/api/eliminar">
+                        <input type="hidden" name="id" value="<?php echo $cita->id; ?>">
+                        <input type="submit" class="boton-eliminar" value="Eliminar Cita">
+                    </form>
                 <?php  } ?>
         <?php } ?><!-- Fin del foreach -->
         </div></li> <!-- Cierra la última cita -->
@@ -51,4 +56,9 @@
     </ul>
 </div>
 
-<?php echo "<script src='build/js/buscador.js'></script>"; ?>
+<?php 
+$script = "
+<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<script src='build/js/buscador.js'></script>
+"; 
+?>

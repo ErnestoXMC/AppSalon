@@ -34,9 +34,10 @@ $router->get('/mensaje', [LoginController::class, 'mensaje']);
 $router->get('/citas', [CitaController:: class, 'index']);
 $router->get('/admin', [AdminController::class, 'index']);
 
-//!API DE SERVICIOS
+//!API DE SERVICIOS - PRIVADO
 $router->get('/api/servicios', [APIController::class, 'index']);
 $router->post('/api/citas', [APIController::class, 'guardar']);
+$router->post('/api/eliminar', [APIController::class, 'eliminar']);
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
 $router->comprobarRutas();
