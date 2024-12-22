@@ -1,14 +1,13 @@
 <?php 
 
 require_once __DIR__ . '/../includes/app.php';
-
+use MVC\Router;
 use Controllers\AdminController;
 use Controllers\APIController;
 use Controllers\CitaController;
 use Controllers\LoginController;
 use Controllers\ServicioController;
 use Controllers\ValidController;
-use MVC\Router;
 
 $router = new Router();
 
