@@ -17,3 +17,12 @@
         }
     }
 }
+.servicios{
+    @extend .citas;
+
+    .acciones{
+        .boton, .boton-eliminar{
+            margin: 0;
+        }
+    }
+}
